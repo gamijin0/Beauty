@@ -17,6 +17,7 @@ class MyFigure:
     extent = []
     radius =0
     evolveRate=0.85
+    MyColor="Blues_r"
     #==========================================
 
     # 创建主文件夹及img,gif文件夹 #
@@ -124,7 +125,7 @@ class MyFigure:
         d=2*((self.evolveRate)**(t*10))
         print("radius:",d)
         self.mand=self.GetMandelbort(cx=x,cy=y,d=d,border_length=200)
-        self.GenerateImg(border_length=200,cx=x,cy=y,bgcolor="Blues_r")
+        self.GenerateImg(dpi=200,cx=x,cy=y,bgcolor=self.MyColor)
         return mplfig_to_npimage(fig=self.figure)
 
         pass
@@ -154,6 +155,11 @@ if(__name__=='__main__'):
     #testone.GenerateImg(400,bgcolor="Set1_r")
     #testone.GenerateImg(border_length=200,bgcolor="Blues_r")
     #testone.Show()
-    testone.SaveImg(dpi=600)
-    testone.GenerateImg(0.27322626,0.595153338,dpi=300)
-    testone.GenerateGif(fileName="test.gif",timeLen=10,fps=30,evolveRate=0.96)
+    #testone.SaveImg(dpi=600)
+
+    #Accent, Accent_r, Blues, Blues_r, BrBG, BrBG_r, BuGn, BuGn_r, BuPu, BuPu_r, CMRmap, CMRmap_r, Dark2, Dark2_r, GnBu, GnBu_r, Greens, Greens_r, Greys, Greys_r, OrRd, OrRd_r, Oranges, Oranges_r, PRGn, PRGn_r, Paired, Paired_r, Pastel1, Pastel1_r, Pastel2, Pastel2_r, PiYG, PiYG_r, PuBu, PuBuGn, PuBuGn_r, PuBu_r, PuOr, PuOr_r, PuRd, PuRd_r, Purples, Purples_r, RdBu, RdBu_r, RdGy, RdGy_r, RdPu, RdPu_r, RdYlBu, RdYlBu_r, RdYlGn, RdYlGn_r, Reds, Reds_r, Set1, Set1_r, Set2, Set2_r, Set3, Set3_r, Spectral, Spectral_r, Wistia, Wistia_r, YlGn, YlGnBu, YlGnBu_r, YlGn_r, YlOrBr, YlOrBr_r, YlOrRd, YlOrRd_r, afmhot, afmhot_r, autumn, autumn_r, binary, binary_r, bone, bone_r, brg, brg_r, bwr, bwr_r, cool, cool_r, coolwarm, coolwarm_r, copper, copper_r, cubehelix, cubehelix_r, flag, flag_r, gist_earth, gist_earth_r, gist_gray, gist_gray_r, gist_heat, gist_heat_r, gist_ncar, gist_ncar_r, gist_rainbow, gist_rainbow_r, gist_stern, gist_stern_r, gist_yarg, gist_yarg_r, gnuplot, gnuplot2, gnuplot2_r, gnuplot_r, gray, gray_r, hot, hot_r, hsv, hsv_r, inferno, inferno_r, jet, jet_r, magma, magma_r, nipy_spectral, nipy_spectral_r, ocean, ocean_r, pink, pink_r, plasma, plasma_r, prism, prism_r, rainbow, rainbow_r, seismic, seismic_r, spectral, spectral_r, spring, spring_r, summer, summer_r, terrain, terrain_r, viridis, viridis_r, winter, winter_r
+
+
+    testone.MyColor="Oranges_r"
+    testone.GenerateImg(0.273226258798,0.595153338,dpi=80)
+    testone.GenerateGif(fileName="Oranges_r.gif",timeLen=10,fps=40,evolveRate=0.97)
