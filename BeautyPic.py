@@ -4,22 +4,22 @@ from matplotlib import cm
 import numpy
 import time
 import moviepy.editor as mpy
-import images2gif
+
 
 class MyFigure:
-
-    #==========================================
-    dirName = "" #主文件夹名
+#==========================================
+    dirName = "" #主文件夹名\
     imgDirName="img" #用于保存图片
     gifDirName="gif" #用于保存gif
     figure = plt.figure()
     mand = numpy.array([0])
     extent = []
     radius =0
+    dpi=200
+    center=[0,0]
     evolveRate=0.85
     MyColor="Blues_r"
     #==========================================
-
     # 创建主文件夹及img,gif文件夹 #
     def __init__(self,dirName):
         self.dirName = dirName
@@ -50,8 +50,6 @@ class MyFigure:
         for i in range(1, 100):  # 最多迭代100次
             if abs(z) > 100: break  # 半径大于2则认为逃逸:
             z = z*z+c
-
-
             # +math.sin(abs(z))-math.sin(abs(z))
         return i  # 返回迭代次数
 
@@ -84,7 +82,8 @@ class MyFigure:
         color_str="Accent, Accent_r, Blues, Blues_r, BrBG, BrBG_r, BuGn, BuGn_r, BuPu, BuPu_r, CMRmap, CMRmap_r, Dark2, Dark2_r, GnBu, GnBu_r, Greens, Greens_r, Greys, Greys_r, OrRd, OrRd_r, Oranges, Oranges_r, PRGn, PRGn_r, Paired, Paired_r, Pastel1, Pastel1_r, Pastel2, Pastel2_r, PiYG, PiYG_r, PuBu, PuBuGn, PuBuGn_r, PuBu_r, PuOr, PuOr_r, PuRd, PuRd_r, Purples, Purples_r, RdBu, RdBu_r, RdGy, RdGy_r, RdPu, RdPu_r, RdYlBu, RdYlBu_r, RdYlGn, RdYlGn_r, Reds, Reds_r, Set1, Set1_r, Set2, Set2_r, Set3, Set3_r, Spectral, Spectral_r, Wistia, Wistia_r, YlGn, YlGnBu, YlGnBu_r, YlGn_r, YlOrBr, YlOrBr_r, YlOrRd, YlOrRd_r, afmhot, afmhot_r, autumn, autumn_r, binary, binary_r, bone, bone_r, brg, brg_r, bwr, bwr_r, cool, cool_r, coolwarm, coolwarm_r, copper, copper_r, cubehelix, cubehelix_r, flag, flag_r, gist_earth, gist_earth_r, gist_gray, gist_gray_r, gist_heat, gist_heat_r, gist_ncar, gist_ncar_r, gist_rainbow, gist_rainbow_r, gist_stern, gist_stern_r, gist_yarg, gist_yarg_r, gnuplot, gnuplot2, gnuplot2_r, gnuplot_r, gray, gray_r, hot, hot_r, hsv, hsv_r, inferno, inferno_r, jet, jet_r, magma, magma_r, nipy_spectral, nipy_spectral_r, ocean, ocean_r, pink, pink_r, plasma, plasma_r, prism, prism_r, rainbow, rainbow_r, seismic, seismic_r, spectral, spectral_r, spring, spring_r, summer, summer_r, terrain, terrain_r, viridis, viridis_r, winter, winter_r"
         color_list=color_str.split(", ")
         print(len(color_list))
-
+        self.center=[cx,cy]
+        self.dpi =dpi
         self.GenerateData(radius=self.radius,cx=cx,cy=cy,border_length=dpi)
         self.figure.add_subplot(111)
         #plt.plot(numpy_data)
@@ -118,7 +117,8 @@ class MyFigure:
     #渐变图像
     def Evolve(self,t):
         #t : seconds
-        x, y = 0.27322626, 0.595153338
+        x= self.center[0]
+        y=self.center[1]
         print("time:",t)
         from moviepy.video.io.bindings import mplfig_to_npimage
         self.mand = self.mand+numpy.rot90(self.mand)
@@ -131,11 +131,9 @@ class MyFigure:
         pass
 
 
-    #用图片合成GIF
+    #用从图片产生GIF
     def GenerateGif(self,fileName,timeLen,fps=10,evolveRate=0.85):
-        # import os
-        # filelist=os.listdir(self.dirName+"/"+self.imgDirName+"/")
-        # print("现有img:"+str(filelist))
+
         self.evolveRate=evolveRate
         animation = mpy.VideoClip(self.Evolve,duration=timeLen)
         animation.write_gif(self.dirName+"/"+self.gifDirName+"/"+fileName,fps=fps)
@@ -152,15 +150,13 @@ class MyFigure:
 
 if(__name__=='__main__'):
     testone = MyFigure("TestOne")
-    #testone.GenerateImg(400,bgcolor="Set1_r")
-    #testone.GenerateImg(border_length=200,bgcolor="Blues_r")
-    #testone.Show()
-    #testone.SaveImg(dpi=600)
 
-    #Accent, Accent_r, Blues, Blues_r, BrBG, BrBG_r, BuGn, BuGn_r, BuPu, BuPu_r, CMRmap, CMRmap_r, Dark2, Dark2_r, GnBu, GnBu_r, Greens, Greens_r, Greys, Greys_r, OrRd, OrRd_r, Oranges, Oranges_r, PRGn, PRGn_r, Paired, Paired_r, Pastel1, Pastel1_r, Pastel2, Pastel2_r, PiYG, PiYG_r, PuBu, PuBuGn, PuBuGn_r, PuBu_r, PuOr, PuOr_r, PuRd, PuRd_r, Purples, Purples_r, RdBu, RdBu_r, RdGy, RdGy_r, RdPu, RdPu_r, RdYlBu, RdYlBu_r, RdYlGn, RdYlGn_r, Reds, Reds_r, Set1, Set1_r, Set2, Set2_r, Set3, Set3_r, Spectral, Spectral_r, Wistia, Wistia_r, YlGn, YlGnBu, YlGnBu_r, YlGn_r, YlOrBr, YlOrBr_r, YlOrRd, YlOrRd_r, afmhot, afmhot_r, autumn, autumn_r, binary, binary_r, bone, bone_r, brg, brg_r, bwr, bwr_r, cool, cool_r, coolwarm, coolwarm_r, copper, copper_r, cubehelix, cubehelix_r, flag, flag_r, gist_earth, gist_earth_r, gist_gray, gist_gray_r, gist_heat, gist_heat_r, gist_ncar, gist_ncar_r, gist_rainbow, gist_rainbow_r, gist_stern, gist_stern_r, gist_yarg, gist_yarg_r, gnuplot, gnuplot2, gnuplot2_r, gnuplot_r, gray, gray_r, hot, hot_r, hsv, hsv_r, inferno, inferno_r, jet, jet_r, magma, magma_r, nipy_spectral, nipy_spectral_r, ocean, ocean_r, pink, pink_r, plasma, plasma_r, prism, prism_r, rainbow, rainbow_r, seismic, seismic_r, spectral, spectral_r, spring, spring_r, summer, summer_r, terrain, terrain_r, viridis, viridis_r, winter, winter_r
-
-    x=0.273125158798
+    #可用颜色:Accent, Accent_r, Blues, Blues_r, BrBG, BrBG_r, BuGn, BuGn_r, BuPu, BuPu_r, CMRmap, CMRmap_r, Dark2, Dark2_r, GnBu, GnBu_r, Greens, Greens_r, Greys, Greys_r, OrRd, OrRd_r, Oranges, Oranges_r, PRGn, PRGn_r, Paired, Paired_r, Pastel1, Pastel1_r, Pastel2, Pastel2_r, PiYG, PiYG_r, PuBu, PuBuGn, PuBuGn_r, PuBu_r, PuOr, PuOr_r, PuRd, PuRd_r, Purples, Purples_r, RdBu, RdBu_r, RdGy, RdGy_r, RdPu, RdPu_r, RdYlBu, RdYlBu_r, RdYlGn, RdYlGn_r, Reds, Reds_r, Set1, Set1_r, Set2, Set2_r, Set3, Set3_r, Spectral, Spectral_r, Wistia, Wistia_r, YlGn, YlGnBu, YlGnBu_r, YlGn_r, YlOrBr, YlOrBr_r, YlOrRd, YlOrRd_r, afmhot, afmhot_r, autumn, autumn_r, binary, binary_r, bone, bone_r, brg, brg_r, bwr, bwr_r, cool, cool_r, coolwarm, coolwarm_r, copper, copper_r, cubehelix, cubehelix_r, flag, flag_r, gist_earth, gist_earth_r, gist_gray, gist_gray_r, gist_heat, gist_heat_r, gist_ncar, gist_ncar_r, gist_rainbow, gist_rainbow_r, gist_stern, gist_stern_r, gist_yarg, gist_yarg_r, gnuplot, gnuplot2, gnuplot2_r, gnuplot_r, gray, gray_r, hot, hot_r, hsv, hsv_r, inferno, inferno_r, jet, jet_r, magma, magma_r, nipy_spectral, nipy_spectral_r, ocean, ocean_r, pink, pink_r, plasma, plasma_r, prism, prism_r, rainbow, rainbow_r, seismic, seismic_r, spectral, spectral_r, spring, spring_r, summer, summer_r, terrain, terrain_r, viridis, viridis_r, winter, winter_r
+    testone.MyColor="Blues_r"
+    #中心点坐标：
+    x=0.273223158798
     y=0.595143338
-    testone.MyColor="BrBG_r"
+
     testone.GenerateImg(cx=x,cy=y,dpi=10)
-    testone.GenerateGif(fileName=testone.MyColor+str(x)+".gif",timeLen=7,fps=10,evolveRate=0.77)
+    testone.GenerateGif(fileName=testone.MyColor+str(x)+".gif",timeLen=6,fps=15,evolveRate=0.86)
+    print("Generate comlpeted.")
