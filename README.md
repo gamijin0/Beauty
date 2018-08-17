@@ -23,8 +23,3 @@ fps:帧率
 evolveRate:镜头前进速度
 
 
-###图片有点大,加载较慢
-
-
-<a href="http://chaos.ac.cn:8000">chaos.ac.cn:8000</a>
-
